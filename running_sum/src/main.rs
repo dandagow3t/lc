@@ -10,11 +10,26 @@ impl Solution {
     }
 }
 
-fn main() {
-    let nums = [1,2,3,4];
-    println!("{:?}", Solution::running_sum(nums.to_vec()));
-    let nums = [1,1,1,1, 1];
-    println!("{:?}", Solution::running_sum(nums.to_vec()));
-    let nums = [3,1,2,10,1];
-    println!("{:?}", Solution::running_sum(nums.to_vec()));
+// Transform main into tests
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_1() {
+        let nums = [1,2,3,4];
+        assert_eq!(Solution::running_sum(nums.to_vec()), vec![1,3,6,10]);
+    }
+
+    #[test]
+    fn test_2() {
+        let nums = [1,1,1,1, 1];
+        assert_eq!(Solution::running_sum(nums.to_vec()), vec![1,2,3,4,5]);
+    }
+
+    #[test]
+    fn test_3() {
+        let nums = [3,1,2,10,1];
+        assert_eq!(Solution::running_sum(nums.to_vec()), vec![3,4,6,16,17]);
+    }
 }
