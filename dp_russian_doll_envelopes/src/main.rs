@@ -22,92 +22,12 @@
 // 1 <= envelopes.length <= 105
 // envelopes[i].length == 2
 // 1 <= wi, hi <= 105
-struct Solution;
 
-impl Solution {
-
-
-    // pub fn max_envelopes_v1_not_ok(envelopes: Vec<Vec<i32>>) -> i32 {
-    //     if envelopes.len() == 0 {
-    //         return 0;
-    //     }
-    //
-    //     if envelopes.len() == 1 {
-    //         return 1;
-    //     }
-    //
-    //     let mut max_sequence: Vec<Vec<i32>> = Vec::new();
-    //     for i in 0..envelopes.len() {
-    //         let mut sequence = Vec::new();
-    //         sequence.push(envelopes[i].clone());
-    //         let mut w = envelopes[i][0];
-    //         let mut l = envelopes[i][1];
-    //         for j in 0..envelopes.len() {
-    //             if i != j && envelopes[j][0] < w && envelopes[j][1] < l {
-    //                 sequence.push(envelopes[j].clone());
-    //                 w = envelopes[j][0];
-    //                 l = envelopes[j][1];
-    //             }
-    //         }
-    //         println!("seq {:?}", sequence);
-    //         if max_sequence.len() < sequence.len() {
-    //             max_sequence = sequence;
-    //         }
-    //         println!("max {:?}", max_sequence);
-    //     }
-    //     max_sequence.len() as i32
-    // }
-
-    fn build_sequence_v2(envelope: Vec<i32>, envelopes: Vec<Vec<i32>>, prefix: String) -> i32 {
-        let label = format!("{}/{:?}", prefix, &envelope);
-        // println!("{} envelopes {:?}", &label, &envelopes);
-        let mut max = 0;
-        for i in 0..envelopes.len() {
-            if envelope[0] > envelopes[i][0] && envelope[1] > envelopes[i][1] {
-                let next_envelope = envelopes[i].clone();
-
-                let next_envelopes = envelopes.iter().filter(|&x| x[0] != next_envelope[0] || x[1] != next_envelope[1]).cloned().collect();
-                let next_sequence_len = Self::build_sequence_v2(next_envelope, next_envelopes, label.clone());
-                if max < next_sequence_len {
-                    max = next_sequence_len;
-                }
-            }
-        }
-        let result = max + 1;
-        // println!("{} max {}", label, result);
-        result
-    }
-
-    pub fn max_envelopes_v2_time_limit_exceeded(envelopes: Vec<Vec<i32>>) -> i32 {
-        if envelopes.len() == 0 {
-            return 0;
-        }
-
-        if envelopes.len() == 1 {
-            return 1;
-        }
-
-        let mut max = 0;
-        for i in 0..envelopes.len() {
-            let next_envelope = envelopes[i].clone();
-            let next_envelopes: Vec<Vec<i32>> = envelopes.iter().filter(|&x| x[0] != next_envelope[0] || x[1] != next_envelope[1]).cloned().collect();
-            if next_envelopes.len() > 0 {
-                let seq_len = Self::build_sequence_v2(next_envelope, next_envelopes, String::from("  "));
-                if max < seq_len {
-                    max = seq_len;
-                }
-            }
-
-        }
-        return if max == 0 { 1 } else { max };
-    }
-
-}
-
+use dp_russian_doll_envelopes::dp::Solution;
 fn main() {
 
-    // println!("{}", Solution::max_envelopes(vec![[30,50].to_vec(),[12,2].to_vec(),[3,4].to_vec(),[12,15].to_vec()])) // 3
-    println!("{}", Solution::max_envelopes_v2_time_limit_exceeded(vec![[1,1].to_vec(), [1,1].to_vec(), [1,1].to_vec()])) // 1
+    println!("{}", Solution::max_envelopes(vec![[30,50].to_vec(),[12,2].to_vec(),[3,4].to_vec(),[12,15].to_vec()])) // 3
+    // println!("{}", Solution::max_envelopes_v2_time_limit_exceeded(vec![[1,1].to_vec(), [1,1].to_vec(), [1,1].to_vec()])) // 1
     // println!("{}", Solution::max_envelopes(vec![[1,3].to_vec(),[3,5].to_vec(),[6,7].to_vec(),[6,8].to_vec(),[8,4].to_vec(),[9,5].to_vec()])); // 3
 }
 

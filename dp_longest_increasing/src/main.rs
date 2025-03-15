@@ -32,7 +32,6 @@ impl Solution {
         let n = nums.len();
         let mut dp = vec![1; n];
         for i in 0..n {
-            println!("i: {}, dp {:?}", i, dp);
             for j in 0..i {
                 // here is the core logic
                 if nums[i] > nums[j] {
@@ -48,32 +47,28 @@ impl Solution {
         let mut tails = Vec::new();
 
         for num in nums {
-            println!("tails before: {:?}", tails);
-            println!("num: {}", num);
-            match tails.binary_search(&num) {
-                Ok(index) => {
-                    println!("ok index: {}", index);
+            println!("num {:?}", num);
+            if let Err(index) = tails.binary_search(&num) {
+                if index == tails.len() {
+                    tails.push(num);
+                } else {
                     tails[index] = num;
                 }
-                Err(index) => {
-                    println!("err index: {}", index);
-                    if index == tails.len() {
-                        tails.push(num);
-                    } else {
-                        tails[index] = num;
-                    }
-                }
+                println!("index {}", index);
+                println!("tails {:?}", tails);
             }
-            println!("tails after: {:?}", tails);
         }
 
+        println!("tails {:?}", tails);
         tails.len() as i32
     }
 }
 
 fn main() {
-    println!("solution {}", Solution::length_of_lis(vec![10,9,2,5,3,7,101,18]));
-    println!("solution {}", Solution::length_of_lis_tail(vec![10,9,2,5,3,7,101,18]));
+    // println!("solution {}", Solution::length_of_lis(vec![10,9,2,5,3,7,101,18]));
+    // println!("solution {}", Solution::length_of_lis_tail(vec![10,9,2,5,3,7,101,18]));
+    println!("solution {}", Solution::length_of_lis_tail(vec![5, 9, 2, 1, 4, 6, 3, 2, 9]));
+    println!("solution {}", Solution::length_of_lis_tail(vec![10, 9, 2, 5, 3, 7, 101, 18]));
 }
 
 // add tests (write separate tests for each example given)
