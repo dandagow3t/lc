@@ -101,7 +101,6 @@ impl Solution {
     // Runs in 1ms.
     pub fn solve_v4(mut pairs: Vec<Vec<i32>>) -> i32 {
         pairs.sort_unstable_by_key(|p| p[1]);
-        println!("{:?}", pairs);
 
         let mut current_end = i32::MIN;
         let mut chain_length = 0;
